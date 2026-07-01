@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Written Activity: Analyze the Argument</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #2c3e50;
+            --border-color: #dcdde1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-background);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .instructions {
+            background-color: #edf2f7;
+            padding: 15px 20px;
+            border-left: 5px solid var(--accent-color);
+            border-radius: 4px;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 35px;
+            background: #fdfdfd;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+
+        .form-group input, .question-block select, .question-block textarea {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .question-block select:focus, .question-block textarea:focus {
+            border-color: var(--accent-color);
+        }
+
+        .timer-container {
+            text-align: right;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .question-block {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .scenario {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 3px solid #7f8c8d;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .input-pair {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media(min-width: 600px) {
+            .input-pair {
+                grid-template-columns: 1fr 2fr;
+            }
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background-color: #1a252f;
+        }
+
+        .submission-link {
+            margin-top: 25px;
+            text-align: center;
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .submission-link a {
+            color: #155724;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    </style>
+    <!-- Include jsPDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>Written Activity: Analyze the Argument</h1>
+    <div class="subtitle">Critical Thinking & Informal Fallacies</div>
+
+    <div class="instructions">
+        <strong>Directions:</strong> Read each argument carefully. Determine the informal fallacy committed, then explain in 2–3 sentences why the reasoning is faulty.
+    </div>
+
+    <form id="activityForm">
+        <!-- Student Metadata -->
+        <div class="student-info">
+            <div class="form-group">
+                <label for="studentName">Full Name *</label>
+                <input type="text" id="studentName" required placeholder="John Doe">
+            </div>
+            <div class="form-group">
+                <label for="codeName">Code Name *</label>
+                <input type="text" id="codeName" required placeholder="Cipher99">
+            </div>
+            <div class="form-group">
+                <label for="section">Section *</label>
+                <input type="text" id="section" required placeholder="12-Archimedes">
+            </div>
+        </div>
+
+        <div class="timer-container">
+            Time Elapsed: <span id="timer">00:00</span>
+        </div>
+
+        <!-- Question 1 -->
+        <div class="question-block">
+            <div class="question-text">1. Analyze the following scenario:</div>
+            <div class="scenario">
+                A school advertisement says, "Our students are outstanding." After enrolling, Carlo complains because he expected every student to have excellent grades. The school explains that "outstanding" meant students who actively participate in extracurricular activities.
+            </div>
+            <div class="input-pair">
+                <div class="form-group">
+                    <label>Fallacy:</label>
+                    <input type="text" class="fallacy-input" required placeholder="Enter fallacy name">
+                </div>
+                <div class="form-group">
+                    <label>Explanation (2-3 sentences):</label>
+                    <textarea class="explanation-input" rows="2" required placeholder="Explain why the reasoning is faulty..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-block">
+            <div class="question-text">2. Analyze the following scenario:</div>
+            <div class="scenario">
+                A basketball team has five excellent players. Therefore, the team will certainly become the champion.
+            </div>
+            <div class="input-pair">
+                <div class="form-group">
+                    <label>Fallacy:</label>
+                    <input type="text" class="fallacy-input" required placeholder="Enter fallacy name">
+                </div>
+                <div class="form-group">
+                    <label>Explanation (2-3 sentences):</label>
+                    <textarea class="explanation-input" rows="2" required placeholder="Explain why the reasoning is faulty..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-block">
+            <div class="question-text">3. Analyze the following scenario:</div>
+            <div class="scenario">
+                The school has an excellent Science Department. Therefore, every Science teacher in the school must be excellent.
+            </div>
+            <div class="input-pair">
+                <div class="form-group">
+                    <label>Fallacy:</label>
+                    <input type="text" class="fallacy-input" required placeholder="Enter fallacy name">
+                </div>
+                <div class="form-group">
+                    <label>Explanation (2-3 sentences):</label>
+                    <textarea class="explanation-input" rows="2" required placeholder="Explain why the reasoning is faulty..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-block">
+            <div class="question-text">4. Analyze the following scenario:</div>
+            <div class="scenario">
+                The teacher announced, "Students who finish the test early may leave." Some students interpreted this to mean that they could leave without submitting their papers.
+            </div>
+            <div class="input-pair">
+                <div class="form-group">
+                    <label>Fallacy:</label>
+                    <input type="text" class="fallacy-input" required placeholder="Enter fallacy name">
+                </div>
+                <div class="form-group">
+                    <label>Explanation (2-3 sentences):</label>
+                    <textarea class="explanation-input" rows="2" required placeholder="Explain why the reasoning is faulty..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-block">
+            <div class="question-text">5. Analyze the following scenario:</div>
+            <div class="scenario">
+                A poster says, "NO STUDENTS EAT FREE." Some people interpret it as students are not allowed to eat for free, while others understand it as students should not eat without paying.
+            </div>
+            <div class="input-pair">
+                <div class="form-group">
+                    <label>Fallacy:</label>
+                    <input type="text" class="fallacy-input" required placeholder="Enter fallacy name">
+                </div>
+                <div class="form-group">
+                    <label>Explanation (2-3 sentences):</label>
+                    <textarea class="explanation-input" rows="2" required placeholder="Explain why the reasoning is faulty..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-block">
+            <div class="question-text">6. Analyze the following scenario:</div>
+            <div class="scenario">
+                "No one has ever proven that extraterrestrial life does not exist. Therefore, aliens definitely exist."
+            </div>
+            <div class="input-pair">
+                <div class="form-group">
+                    <label>Fallacy:</label>
+                    <input type="text" class="fallacy-input" required placeholder="Enter fallacy name">
+                </div>
+                <div class="form-group">
+                    <label>Explanation (2-3 sentences):</label>
+                    <textarea class="explanation-input" rows="2" required placeholder="Explain why the reasoning is faulty..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-block">
+            <div class="question-text">7. Analyze the following scenario:</div>
+            <div class="scenario">
+                "Please pass me in this subject. If I fail, my parents will be very disappointed, and I might lose my scholarship."
+            </div>
+            <div class="input-pair">
+                <div class="form-group">
+                    <label>Fallacy:</label>
+                    <input type="text" class="fallacy-input" required placeholder="Enter fallacy name">
+                </div>
+                <div class="form-group">
+                    <label>Explanation (2-3 sentences):</label>
+                    <textarea class="explanation-input" rows="2" required placeholder="Explain why the reasoning is faulty..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-block">
+            <div class="question-text">8. Analyze the following scenario:</div>
+            <div class="scenario">
+                "We should ignore Marco's proposal for improving the school canteen because he failed Mathematics last semester."
+            </div>
+            <div class="input-pair">
+                <div class="form-group">
+                    <label>Fallacy:</label>
+                    <input type="text" class="fallacy-input" required placeholder="Enter fallacy name">
+                </div>
+                <div class="form-group">
+                    <label>Explanation (2-3 sentences):</label>
+                    <textarea class="explanation-input" rows="2" required placeholder="Explain why the reasoning is faulty..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-block">
+            <div class="question-text">9. Analyze the following scenario:</div>
+            <div class="scenario">
+                "If you don't support my proposal, I'll make sure you don't become the leader of our group."
+            </div>
+            <div class="input-pair">
+                <div class="form-group">
+                    <label>Fallacy:</label>
+                    <input type="text" class="fallacy-input" required placeholder="Enter fallacy name">
+                </div>
+                <div class="form-group">
+                    <label>Explanation (2-3 sentences):</label>
+                    <textarea class="explanation-input" rows="2" required placeholder="Explain why the reasoning is faulty..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-block">
+            <div class="question-text">10. Analyze the following scenario:</div>
+            <div class="scenario">
+                "A famous actor says this vitamin supplement improves memory. Therefore, it must really work."
+            </div>
+            <div class="input-pair">
+                <div class="form-group">
+                    <label>Fallacy:</label>
+                    <input type="text" class="fallacy-input" required placeholder="Enter fallacy name">
+                </div>
+                <div class="form-group">
+                    <label>Explanation (2-3 sentences):</label>
+                    <textarea class="explanation-input" rows="2" required placeholder="Explain why the reasoning is faulty..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Finish Activity & Generate PDF</button>
+    </form>
+
+    <div class="submission-link" id="submissionArea">
+        <strong>Activity Completed Successfully!</strong><br>
+        Your response PDF has been downloaded. Please upload the generated file to the Google Drive submission area here: <br>
+        <a href="https://drive.google.com/drive/folders/1g7TAGYySZBhjmeo64F9J2hdop9OImBw9?usp=sharing" target="_blank">Google Drive Submission Folder</a>
+    </div>
+</div>
+
+<script>
+    // Timer functionality
+    let startTime = Date.now();
+    let timerInterval = setInterval(updateTimer, 1000);
+
+    function updateTimer() {
+        let elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+        let minutes = Math.floor(elapsedSeconds / 60).toString().padStart(2, '0');
+        let seconds = (elapsedSeconds % 60).toString().padStart(2, '0');
+        document.getElementById('timer').innerText = `${minutes}:${seconds}`;
+    }
+
+    // Form Submission & PDF Generation
+    document.getElementById('activityForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        clearInterval(timerInterval);
+
+        let totalSeconds = Math.floor((Date.now() - startTime) / 1000);
+        let totalMinutes = (totalSeconds / 60).toFixed(2);
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        let name = document.getElementById('studentName').value;
+        let codeName = document.getElementById('codeName').value;
+        let section = document.getElementById('section').value;
+
+        // Title Sheet
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(20);
+        doc.text("Activity Submission: Analyze the Argument", 14, 20);
+        
+        doc.setFontSize(12);
+        doc.setFont("Helvetica", "normal");
+        doc.text(`Student Name: ${name}`, 14, 32);
+        doc.text(`Code Name: ${codeName}`, 14, 38);
+        doc.text(`Section: ${section}`, 14, 44);
+        doc.text(`Time Spent: ${totalMinutes} minutes`, 14, 50);
+        doc.line(14, 55, 196, 55);
+
+        let y = 65;
+        const blocks = document.querySelectorAll('.question-block');
+
+        blocks.forEach((block, index) => {
+            let scenarioText = block.querySelector('.scenario').innerText;
+            let fallacyVal = block.querySelector('.fallacy-input').value;
+            let explanationVal = block.querySelector('.explanation-input').value;
+
+            if (y > 260) {
+                doc.addPage();
+                y = 20;
+            }
+
+            doc.setFont("Helvetica", "bold");
+            doc.text(`Item ${index + 1}:`, 14, y);
+            y += 6;
+
+            doc.setFont("Helvetica", "oblique");
+            let splitScenario = doc.splitTextToSize(`Scenario: "${scenarioText}"`, 180);
+            doc.text(splitScenario, 14, y);
+            y += (splitScenario.length * 5) + 2;
+
+            doc.setFont("Helvetica", "bold");
+            doc.text(`Fallacy: `, 14, y);
+            doc.setFont("Helvetica", "normal");
+            doc.text(fallacyVal, 35, y);
+            y += 6;
+
+            doc.setFont("Helvetica", "bold");
+            doc.text(`Explanation: `, 14, y);
+            doc.setFont("Helvetica", "normal");
+            let splitExpl = doc.splitTextToSize(explanationVal, 160);
+            doc.text(splitExpl, 45, y);
+            y += (splitExpl.length * 5) + 10;
+        });
+
+        // Save the PDF
+        doc.save(`Activity_Submission_${codeName}.pdf`);
+
+        // Display Submission Area Link
+        document.getElementById('submissionArea').style.display = 'block';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    });
+</script>
+
+</body>
+</html>
